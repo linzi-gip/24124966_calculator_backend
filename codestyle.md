@@ -1,61 +1,61 @@
-# 后端代码规范（Code Style）
+# Backend Code Style
 
-> **规范来源**：[PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
-> （Python 官方推荐代码风格标准）
+> **Source**: [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
+> (The official Python recommended code style standard)
 
-本项目的 Python 代码遵循 PEP 8 规范，以下列出与本项目直接相关的核心约定。
+The Python code in this project follows PEP 8. Below are the core conventions relevant to this project.
 
-## 1. 缩进
+## 1. Indentation
 
-- 使用 **4 个空格** 缩进，不使用 Tab。
+- Use **4 spaces** per indentation level. Tabs are not allowed.
 
-## 2. 行长度
+## 2. Line Length
 
-- 每行代码长度不超过 **79 个字符**；较长的表达式、字符串允许在 99 字符内。
-- 过长语句使用括号或反斜杠换行。
+- Limit lines to **79 characters**; long expressions and strings may go up to 99 characters.
+- Break long statements with parentheses or backslashes.
 
-## 3. 空行
+## 3. Blank Lines
 
-- 模块内顶层函数、类之间空 **2 行**。
-- 类内方法之间空 **1 行**。
+- Surround top-level functions and class definitions with **two** blank lines.
+- Method definitions inside a class are separated by **one** blank line.
 
-## 4. 命名规范
+## 4. Naming Conventions
 
-| 对象       | 命名风格       | 示例                 |
-| ---------- | -------------- | -------------------- |
-| 变量       | 小写+下划线    | `expression`         |
-| 函数       | 小写+下划线    | `evaluate_expression` |
-| 类         | 驼峰式（PascalCase） | `Parser`、`Database` |
-| 常量       | 全大写+下划线  | `DB_PATH`            |
-| 私有方法   | 下划线开头     | `_connect()`         |
+| Object | Style | Example |
+| --- | --- | --- |
+| Variables | lowercase with underscores | `expression` |
+| Functions | lowercase with underscores | `evaluate_expression` |
+| Classes | PascalCase | `Parser`, `Database` |
+| Constants | UPPER_CASE with underscores | `DB_PATH` |
+| Private methods | leading underscore | `_connect()` |
 
-## 5. 引号
+## 5. Quotes
 
-- 字符串优先使用单引号；字符串内包含单引号时使用双引号。
+- Prefer single quotes for strings; use double quotes when the string contains a single quote.
 
-## 6. 注释与文档字符串
+## 6. Comments and Docstrings
 
-- 每个模块、类、函数都应提供文档字符串（docstring），说明用途与参数。
-- 使用英文或中文注释均可，本项目使用中文注释便于理解。
+- Every module, class, and function should have a docstring explaining its purpose and parameters.
+- Comments may be in English or Chinese; this project uses English.
 
-## 7. import 语句
+## 7. Imports
 
-- 每个 import 独占一行。
-- import 顺序：标准库 → 第三方库 → 本地模块，每组之间空一行。
+- One import per line.
+- Import order: standard library → third-party → local modules, each group separated by a blank line.
 
-## 8. 空格使用
+## 8. Whitespace
 
-- 运算符两侧各留一个空格：`value = a + b`
-- 逗号后跟一个空格：`func(a, b)`
-- 括号内不留多余空格：`func(a, b)` 而不是 `func( a, b )`
-- 关键字参数 `=` 两侧不留空格：`func(key=value)`
+- One space around operators: `value = a + b`
+- One space after commas: `func(a, b)`
+- No extra spaces inside parentheses: `func(a, b)` not `func( a, b )`
+- No spaces around the `=` in keyword arguments: `func(key=value)`
 
-## 9. 异常处理
+## 9. Exception Handling
 
-- 捕获异常时使用明确的异常类型（如 `ValueError`、`ZeroDivisionError`），避免裸 `except:`。
-- 自定义异常继承 `ValueError` 等内置异常。
+- Catch specific exception types (e.g., `ValueError`, `ZeroDivisionError`); avoid bare `except:`.
+- Custom exceptions inherit from built-in exceptions such as `ValueError`.
 
-## 10. 其他
+## 10. Other
 
-- 文件末尾保留一个空行。
-- 文件开头声明 `# -*- coding: utf-8 -*-`，确保中文字符串正常。
+- Keep a single trailing newline at the end of each file.
+- Use `# -*- coding: utf-8 -*-` at the top of files to ensure non-ASCII strings work correctly.

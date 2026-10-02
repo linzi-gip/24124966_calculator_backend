@@ -1,103 +1,104 @@
 # 24124966_calculator_backend
 
-前后端分离计算器系统 —— **后端项目**
+Front-End and Back-End Separation Calculator System — **Backend Project**
 
-## 项目介绍
+## Project Introduction
 
-本项目是《软件工程》第一次作业"前后端分离计算器系统"的后端部分。
+This is the backend part of the "Front-End and Back-End Separation Calculator System", the first assignment of the Software Engineering course.
 
-后端负责：
-- 接收前端发来的计算请求（HTTP API）
-- 校验输入、解析数学表达式
-- 完成表达式计算（支持四则运算、括号、一元正负号、小数）
-- 处理异常（非法表达式、除零）
-- 将计算历史持久化到 SQLite 数据库
-- 提供历史记录的查询、删除接口
-- 返回标准化的 JSON API 响应
+The backend is responsible for:
+- Receiving calculation requests from the front end (HTTP API)
+- Validating input and parsing mathematical expressions
+- Performing expression calculation (supports arithmetic operations, parentheses, unary signs, decimals)
+- Handling exceptions (invalid expressions, division by zero)
+- Persisting calculation history into the SQLite database
+- Providing query and deletion APIs for history records
+- Returning standardized JSON API responses
 
-计算逻辑完全在后端完成，**不依赖前端计算结果**，满足作业对"前后端分离"的要求。
+All calculation logic is completed in the backend and **does not rely on the front end**, satisfying the "front-end and back-end separation" requirement of the assignment.
 
-## 技术栈
+## Tech Stack
 
-| 模块       | 技术                     |
-| ---------- | ------------------------ |
-| 后端框架   | Python 3 + Flask         |
-| 数据库     | SQLite（Python 内置）    |
-| 表达式计算 | 自研递归下降解析器（不使用 eval） |
+| Module | Technology |
+| --- | --- |
+| Backend Framework | Python 3 + Flask |
+| Database | SQLite (built into Python) |
+| Expression Calculation | Self-implemented recursive descent parser (no eval) |
 
-## 运行环境
+## Runtime Environment
 
-- Python 3.8 及以上（本项目在 Python 3.14 下开发测试）
-- 操作系统：Windows / macOS / Linux 均可
+- Python 3.8 or above (developed and tested on Python 3.14)
+- OS: Windows / macOS / Linux
 
-## 安装方法
+## Installation
 
 ```bash
-# 进入后端项目目录
+# Enter the backend project directory
 cd 24124966_calculator_backend
 
-# （建议）创建虚拟环境
+# (Recommended) Create a virtual environment
 python -m venv venv
 
-# Windows 激活虚拟环境
+# Activate the virtual environment on Windows
 venv\Scripts\activate
-# macOS / Linux 激活虚拟环境
+# Activate the virtual environment on macOS / Linux
 source venv/bin/activate
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-## 启动方法
+## How to Start
 
 ```bash
 python app.py
 ```
 
-启动成功后，服务运行在 `http://127.0.0.1:5000`，控制台会输出：
+After startup, the service runs at `http://127.0.0.1:5000`, and the console shows:
 `Running on http://0.0.0.0:5000`
 
-## 配置说明
+## Configuration
 
-所有配置均在 `app.py` 顶部，可通过修改 `app.run()` 的参数调整：
-- `port=5000`：服务端口
-- `host="0.0.0.0"`：允许局域网访问（如需仅本机访问可改为 `127.0.0.1`）
+All configuration is at the top of `app.py`; you can adjust the arguments of `app.run()`:
+- `port=5000`: service port
+- `host="0.0.0.0"`: allows LAN access (change to `127.0.0.1` for local-only access)
+- `PORT` environment variable: if set (e.g., by a cloud platform), it overrides the default port
 
-## 数据库初始化方法
+## Database Initialization
 
-无需手动初始化。项目首次启动时，`database.py` 会自动在项目目录下创建
-`calculator.db` 数据库文件及 `calculation_history` 表，表结构如下：
+No manual initialization is required. On first startup, `database.py` automatically creates the `calculator.db` file and the `calculation_history` table in the project directory:
 
 ```sql
 CREATE TABLE calculation_history (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    expression  TEXT    NOT NULL,   -- 计算表达式
-    result      TEXT    NOT NULL,   -- 计算结果
-    created_at  TEXT    NOT NULL    -- 计算时间
+    expression  TEXT    NOT NULL,   -- the expression
+    result      TEXT    NOT NULL,   -- the result
+    created_at  TEXT    NOT NULL    -- the calculation time
 );
 ```
 
-如需清空数据库，删除 `calculator.db` 文件后重启服务即可。
+To reset the database, delete the `calculator.db` file and restart the service.
 
-## 前后端连接方法
+## How the Front End Connects
 
-前端通过 HTTP 请求访问后端接口，前端项目见
-`24124966_calculator_frontend` 仓库。前端配置的后端地址默认是：
+The front end accesses the backend through HTTP requests; see the `24124966_calculator_frontend` repository. The default backend address configured in the front end is:
 
 ```
-http://127.0.0.1:5000
+https://zlin05.pythonanywhere.com
 ```
 
-## API 文档
+For local development, use `http://127.0.0.1:5000`.
 
-### 1. 计算表达式
+## API Documentation
+
+### 1. Calculate an Expression
 
 ```
 POST /api/calculate
 Content-Type: application/json
 ```
 
-请求体：
+Request body:
 
 ```json
 {
@@ -105,7 +106,7 @@ Content-Type: application/json
 }
 ```
 
-成功响应（HTTP 200）：
+Success response (HTTP 200):
 
 ```json
 {
@@ -116,7 +117,7 @@ Content-Type: application/json
 }
 ```
 
-失败响应（HTTP 400，非法表达式）：
+Error response (HTTP 400, invalid expression):
 
 ```json
 {
@@ -125,7 +126,7 @@ Content-Type: application/json
 }
 ```
 
-失败响应（HTTP 400，除零）：
+Error response (HTTP 400, division by zero):
 
 ```json
 {
@@ -134,13 +135,13 @@ Content-Type: application/json
 }
 ```
 
-### 2. 获取全部计算历史
+### 2. Get All Calculation History
 
 ```
 GET /api/history
 ```
 
-成功响应（HTTP 200）：
+Success response (HTTP 200):
 
 ```json
 {
@@ -156,13 +157,13 @@ GET /api/history
 }
 ```
 
-### 3. 按 id 删除一条历史记录
+### 3. Delete One History Record by ID
 
 ```
 DELETE /api/history/{id}
 ```
 
-成功响应（HTTP 200）：
+Success response (HTTP 200):
 
 ```json
 {
@@ -170,7 +171,7 @@ DELETE /api/history/{id}
 }
 ```
 
-记录不存在（HTTP 404）：
+Record not found (HTTP 404):
 
 ```json
 {
@@ -179,13 +180,13 @@ DELETE /api/history/{id}
 }
 ```
 
-### 4. 清空全部历史记录（附加功能）
+### 4. Clear All History Records (Extra Feature)
 
 ```
 DELETE /api/history
 ```
 
-成功响应（HTTP 200）：
+Success response (HTTP 200):
 
 ```json
 {
@@ -193,24 +194,24 @@ DELETE /api/history
 }
 ```
 
-### 5. 健康检查
+### 5. Health Check
 
 ```
 GET /api/health
 ```
 
-## 目录结构
+## Directory Structure
 
 ```
 24124966_calculator_backend/
-├── app.py            # Flask 主程序，定义全部 API 接口
-├── calculator.py     # 表达式解析与计算模块（递归下降解析器）
-├── database.py       # SQLite 数据库操作模块
-├── requirements.txt  # Python 依赖清单
-├── README.md         # 项目说明
-└── codestyle.md      # 代码规范
+├── app.py            # Flask main program, defines all API endpoints
+├── calculator.py     # Expression parsing and calculation module (recursive descent parser)
+├── database.py       # SQLite database operations module
+├── requirements.txt  # Python dependencies
+├── README.md         # Project documentation
+└── codestyle.md      # Code style guide
 ```
 
-## 代码规范
+## Code Style
 
-代码遵循 [PEP 8](https://peps.python.org/pep-0008/)，详见 [codestyle.md](codestyle.md)。
+The code follows [PEP 8](https://peps.python.org/pep-0008/). See [codestyle.md](codestyle.md).
