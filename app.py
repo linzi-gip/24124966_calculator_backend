@@ -18,6 +18,8 @@ app.py - 前后端分离计算器系统 · 后端主程序
 
 from flask import Flask, jsonify, request
 
+import os
+
 from calculator import ExpressionError, evaluate_expression
 from database import Database
 
@@ -120,4 +122,6 @@ def health():
 if __name__ == "__main__":
     # host=0.0.0.0 表示允许局域网内其他设备访问，便于部署演示
     # debug=False 关闭调试模式，避免部署时暴露调试信息
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    # PORT 环境变量：本地默认 5000；部署到 Zeabur 等平台时读取平台注入的端口
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
